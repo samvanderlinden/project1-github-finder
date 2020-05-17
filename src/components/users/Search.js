@@ -9,27 +9,32 @@ class Search extends Component {
     static propTypes = {
         searchUsers: PropTypes.func.isRequired,
         clearUsers: PropTypes.func.isRequired,
-        showClear: PropTypes.bool.isRequired
+        showClear: PropTypes.bool.isRequired,
+        setAlert: PropTypes.func.isRequired
     }
 
     onChange = (e) => this.setState({ text: e.target.value });
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.props.searchUsers(this.state.text);
-        this.setState({ text: '' })
+        if (this.state.text === '') {
+            this.props.setAlert('Please enter a search query', 'light')
+        } else {
+            this.props.searchUsers(this.state.text);
+            this.setState({ text: '' })
+        }
     }
-    
+
     render() {
-        const {showClear, clearUsers} = this.props;
+        const { showClear, clearUsers } = this.props;
         return (
             <div>
                 <form onSubmit={this.onSubmit} className="form">
-                    <input type="text" value={this.state.text} name="text" placeholder="Search Users" onChange={this.onChange}/>
-                    <input type="submit" value="Search" className="btn btn-dark btn-block"/>
+                    <input type="text" value={this.state.text} name="text" placeholder="Search Users" onChange={this.onChange} />
+                    <input type="submit" value="Search" className="btn btn-dark btn-block" />
                 </form>
                 {/*Only show button if there are users present*/}
-                {showClear && <button className="btn btn-light btn-block" onClick={clearUsers}>Clear</button>}    
+                {showClear && <button className="btn btn-light btn-block" onClick={clearUsers}>Clear</button>}
             </div>
         )
     }
