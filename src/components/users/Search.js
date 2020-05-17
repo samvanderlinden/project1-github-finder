@@ -1,11 +1,18 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Search extends Component {
     state = {
         text: ''
     }
 
-    onChange = (e) => this.setState({ [e.target.name]: e.target.value });
+    static propTypes = {
+        searchUsers: PropTypes.func.isRequired,
+        clearUsers: PropTypes.func.isRequired,
+        showClear: PropTypes.bool.isRequired
+    }
+
+    onChange = (e) => this.setState({ text: e.target.value });
 
     onSubmit = (e) => {
         e.preventDefault();
@@ -14,12 +21,15 @@ class Search extends Component {
     }
     
     render() {
+        const {showClear, clearUsers} = this.props;
         return (
             <div>
                 <form onSubmit={this.onSubmit} className="form">
-                    <input type="text" value={this.state.value} name="text" placeholder="Search Users" onChange={this.onChange}/>
+                    <input type="text" value={this.state.text} name="text" placeholder="Search Users" onChange={this.onChange}/>
                     <input type="submit" value="Search" className="btn btn-dark btn-block"/>
                 </form>
+                {/*Only show button if there are users present*/}
+                {showClear && <button className="btn btn-light btn-block" onClick={clearUsers}>Clear</button>}    
             </div>
         )
     }
