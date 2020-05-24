@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import UserItem from './UserItem';
 import Spinner from '../layout/Spinner';
 import PropTypes from 'prop-types';
+import GitHubContext from '../../context/github/githubContext';
 
-const Users = ({ users, loading }) => {
+const Users = () => {
+    const githubContext = useContext(GitHubContext); //simply bring this in any component to use its state. Do not need to do any 'prop drilling' to pass state to other components
+    const { loading, users } = githubContext;
+    console.log({githubContext});
     if (loading) {
         return <Spinner />
     } else {
